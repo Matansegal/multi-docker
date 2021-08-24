@@ -1,0 +1,16 @@
+FROM node::14.14.0-alpine
+
+USER node
+
+# I have to go through home directory in order to have a premisison
+RUN mkdir -p /home/node/app
+WORKDIR /home/node/app
+
+# here i give the premission
+COPY --chown=node:node ./package.json ./
+RUN npm install
+
+# we do not necassery need that but it is better to leave it there
+COPY --chown=node:node ./ ./
+
+CMD ["npm", "run", "start"]
