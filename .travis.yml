@@ -1,24 +1,24 @@
 sudo: required
+language: generic
+
 services:
   - docker
 
 before_install:
-  - docker build -t matansegal/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t stephengrider/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true matansegal/react-test npm test
+  - docker run -e CI=true stephengrider/react-test npm test
 
 after_success:
-  - docker build -t matansegal/multi-client ./client
-  - docker build -t matansegal/multi-nginx ./nginx
-  - docker build -t matansegal/multi-server ./server
-  - docker build -t matansegal/multi-worker ./worker
-
-  # log in to the docker CLI
+  - docker build -t stephengrider/multi-client ./client
+  - docker build -t stephengrider/multi-nginx ./nginx
+  - docker build -t stephengrider/multi-server ./server
+  - docker build -t stephengrider/multi-worker ./worker
+  # Log in to the docker CLI
   - echo "$docker_pass" | docker login -u "$docker_id" --password-stdin
-
-  # take those images and push them to docker hub
-  - docker push matansegal/multi-client
-  - docker push matansegal/multi-nginx
-  - docker push matansegal/multi-server
-  - docker push matansegal/multi-worker
+  # Take those images and push them to docker hub
+  - docker push stephengrider/multi-client
+  - docker push stephengrider/multi-nginx
+  - docker push stephengrider/multi-server
+  - docker push stephengrider/multi-worker
